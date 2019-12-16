@@ -21,7 +21,7 @@ app.delete('/api/portfolio/:id', deleteCoin)
 //coinmarketcap api GET
 app.get('/marketdata', ((req, res) => {
     
-            axios.get('https://pro-api.coinmarketcap.com/v1/cryptocurrency/listings/latest?CMC_PRO_API_KEY=3222600c-e5f2-4ad5-a598-545182b78a35')
+            axios.get('https://pro-api.coinmarketcap.com/v1/cryptocurrency/listings/latest?CMC_PRO_API_KEY=9b804b18-ba9f-42d1-8f2d-cc72db8a76ba')
             .then(response => {
 
                 let coinData = response.data["data"]

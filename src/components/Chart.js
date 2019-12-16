@@ -54,8 +54,6 @@ export default class Charts extends Component {
   render() {
     const { chartOptions, hoverData } = this.state;
 
-    console.log(this.props.coinBuyPrice)
-    console.log(this.state.chartOptions.series[0].data)
  
     return (
       <div>

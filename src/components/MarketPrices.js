@@ -1,5 +1,4 @@
 import React from 'react'
-import axios from 'axios'
 
 export default class MarketPrices extends React.Component{
     constructor(props){
@@ -7,21 +6,26 @@ export default class MarketPrices extends React.Component{
         this.state = {
             marketSymbols: [],
             marketPrices: [],
-            prevMarketPrices: [],
-
+            prevMarketPrices: []
         }
     }
 
 
 
+
     render(){
-        console.log(this.state)
-        console.log(this.props)
         const {marketSymbols, marketPrices, prevMarketPrices} = this.props
+
+        let top5Coins = marketSymbols.slice(0, 5)
+        
         return(
             <div>
-                <div> {marketSymbols[0]} </div> <div> {((marketPrices[0] / prevMarketPrices[0]) - 1) * 100} </div>
-                <div> {marketPrices[0]} </div>
+                    {top5Coins.map((ele,i) => {
+                    return <div key={i}>
+                                <div> {marketSymbols[i]} </div> <div> Percent Change :{prevMarketPrices[i] ? `${(((marketPrices[i] / prevMarketPrices[i]) - 1) * 100).toFixed(2)}%` : `0%`} </div>
+                                <div> {`$${marketPrices[i].toFixed(2)}`} </div>
+                            </div>
+                    })}
                 <button onClick={this.props.refreshData}>UPDATE PRICES</button>
             </div>
         )

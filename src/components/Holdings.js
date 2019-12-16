@@ -18,12 +18,20 @@ export default class Holdings extends React.Component{
 
     static getDerivedStateFromProps(nextProps, prevState){
         return {
+            marketSymbols: nextProps.marketSymbols,
+            marketPrices: nextProps.marketPrices,
             coinBuyPrice: nextProps.coinBuyPrice,
             coinAmount: nextProps.coinAmount,
             coinNames: nextProps.coinNames,
             coinSymbols: nextProps.coinSymbols
 
         }
+    }
+
+    componentDidUpdate(){
+
+        
+        
     }
 
     render(){
@@ -35,14 +43,15 @@ export default class Holdings extends React.Component{
             holdingValue.push(coinBuyPrice[i])
         }
 
-        console.log(this.state)
+
+
         return(
             <div>
                 {coinNames.map((val, i) => {
                     
                     return <div key={i}> 
                                 <div key={`coinName ${i}`}>{`${val}`}</div> 
-                                <div key={`values ${i}`}>{`Holdings: ${coinAmount[i]} Value: ${coinBuyPrice[i]} Percent of portfolio: ${ Math.round (100 * ( (coinBuyPrice[i]) / holdingValue.reduce((prev, curr) => curr + prev, 0) )) } %`}</div>
+                                <div key={`values ${i}`}>{`Holdings: ${coinAmount[i]} Value: $${(this.state.marketPrices[this.state.marketSymbols.findIndex(ele => this.state.coinSymbols[i] === ele)] * coinAmount[i]).toFixed(2)} Percent of portfolio: ${  (100 * ( (coinBuyPrice[i]) / holdingValue.reduce((prev, curr) => curr + prev, 0) )).toFixed(2) } %`}</div>
                             </div>
                 })}
             </div>

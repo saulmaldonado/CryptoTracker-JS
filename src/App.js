@@ -4,8 +4,8 @@ import './styles/App.css'
 import axios from 'axios'
 import PortfolioValue from './components/PortfolioValue';
 import Holdings from './components/Holdings';
-import Charts from './components/Chart';
 import MarketPrices from './components/MarketPrices';
+import BuyAndSell from './components/BuyAndSell/BuyAndSell';
  export default class App extends React.Component{
    constructor(){
      super()
@@ -18,11 +18,25 @@ import MarketPrices from './components/MarketPrices';
       coinBuyPrice : [],
       marketSymbols : [],
       marketPrices : [],
-      prevMarketPrices : []
+      prevMarketPrices : [],
+      buyAndSellMode: false
 
      }
 
      this.refreshData = this.refreshData.bind(this)
+     this.addNewCoin = this.addNewCoin.bind(this)
+     this.updateCoin = this.updateCoin.bind(this)
+     this.deleteCoin = this.deleteCoin.bind(this)
+     this.switchToPortfolio = this.switchToPortfolio.bind(this)
+     this.switchToBuyAndSell = this.switchToBuyAndSell.bind(this)
+   }
+
+   switchToPortfolio(){
+     this.setState({buyAndSellMode: false})
+   }
+
+   switchToBuyAndSell(){
+     this.setState({buyAndSellMode: true})
    }
 
    refreshData(){
@@ -34,6 +48,52 @@ import MarketPrices from './components/MarketPrices';
         this.setState({marketSymbols: res.data[0], marketPrices: res.data[1]})
     })
    }
+
+   addNewCoin(text){
+     axios.post('/api/portfolio', text)
+     .then( res => {
+
+       this.setState({coinNames: [...this.state.coinNames, res.data[res.data.length - 1].name], coinSymbols: [...this.state.coinSymbols, res.data[res.data.length - 1].symbol], coinAmount: [...this.state.coinAmount, res.data[res.data.length - 1].amount], coinBuyPrice: [...this.state.coinBuyPrice, res.data[res.data.length - 1].value]} )
+
+
+      })
+    }
+
+    updateCoin(id, text){
+
+      axios.put(`/api/portfolio/${id}`, text)
+      .then( res => {
+
+        let newCoinAmount = this.state.coinAmount
+        newCoinAmount.splice(id, 1, res.data[id].amount)
+
+        let newCoinBuyPrice = this.state.coinBuyPrice
+        newCoinBuyPrice.splice(id, 1, res.data[id].value)
+
+        
+
+        this.setState({coinAmount: newCoinAmount, coinBuyPrice: newCoinBuyPrice})
+      })
+    }
+
+    deleteCoin(id){
+      axios.delete(`/api/portfolio/${id}`)
+      .then(res => {
+
+            let newCoinNames = this.state.coinNames.slice()
+            let newCoinSymbols = this.state.coinSymbols.slice()
+            let newCoinBuyPrice = this.state.coinBuyPrice.slice()
+            let newCoinAmount = this.state.coinAmount.slice()
+
+            newCoinNames.splice(id,1)
+            newCoinSymbols.splice(id,1)
+            newCoinBuyPrice.splice(id,1)
+            newCoinAmount.splice(id,1)
+
+
+            this.setState({coinNames: newCoinNames, coinSymbols: newCoinSymbols, coinBuyPrice: newCoinBuyPrice, coinAmount: newCoinAmount})
+      })
+    }
 
    componentDidMount(){
 
@@ -67,23 +127,27 @@ import MarketPrices from './components/MarketPrices';
       }
 
       this.setState({coinBuyPrice: coinBuyPrice, coinAmount: coinAmount, coinNames: coinNames, coinSymbols: coinSymbols})
-
-
-     })
-   }
+    })
+  }
  
  render(){
 
   const {coinBuyPrice, coinAmount, coinNames, coinSymbols, marketSymbols, marketPrices, prevMarketPrices} = this.state
 
 
+  let currentMode= this.state.buyAndSellMode
+
+
    
   return (
     <div className="App">
       <header>My Portfolio</header>
-      <PortfolioValue coinBuyPrice={coinBuyPrice} coinAmount={coinAmount} coinNames={coinNames} coinSymbols={coinSymbols} marketSymbols={marketSymbols} marketPrices={marketPrices} />
-      <Holdings coinBuyPrice={coinBuyPrice} coinAmount={coinAmount} coinNames={coinNames} coinSymbols={coinSymbols}/>
-      <Charts coinBuyPrice={coinBuyPrice} coinAmount={coinAmount} coinNames={coinNames} coinSymbols={coinSymbols} />
+      <PortfolioValue coinBuyPrice={coinBuyPrice} coinAmount={coinAmount} coinNames={coinNames} coinSymbols={coinSymbols} marketSymbols={marketSymbols} marketPrices={marketPrices} switchToPortfolio={this.switchToPortfolio} switchToBuyAndSell={this.switchToBuyAndSell} prevMarketPrices={prevMarketPrices}/>
+     {currentMode ? ( 
+       <BuyAndSell  marketSymbols={marketSymbols} marketPrices={marketPrices} addNewCoin={this.addNewCoin} coinSymbols={coinSymbols} updateCoin={this.updateCoin} deleteCoin={this.deleteCoin} coinAmount={coinAmount}/>
+     ) : (
+       <Holdings coinBuyPrice={coinBuyPrice} coinAmount={coinAmount} coinNames={coinNames} coinSymbols={coinSymbols} marketSymbols={marketSymbols} marketPrices={marketPrices}/>
+     )}
       <MarketPrices refreshData={this.refreshData} marketSymbols={marketSymbols} marketPrices={marketPrices} prevMarketPrices={prevMarketPrices} />
     </div>
   )

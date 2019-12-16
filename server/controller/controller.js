@@ -1,8 +1,8 @@
 
 //current portfolio
-let coins = [{id: 0 , name: "Bitcoin", symbol: "BTC", amount: .5, value: 3610.00}, {id: 1 , name: "Ethereum", symbol: "ETH", amount: .5, value: 7220.30}, {id: 2 , name: "Ripple", symbol: "XRP", amount: 100, value: 5.00}]
+let coins = []
 
-let id = coins.length
+let coinsId = coins.length
 
 
 
@@ -10,16 +10,19 @@ let id = coins.length
 function addCoin(req, res){
     const {name, symbol, amount, value} = req.body
 
+
     coins.push({
-        id,
+        id: coinsId,
         name,
         symbol,
         amount, 
         value
     })
 
-    id++
+    coinsId++
+
     res.status(200).json(coins)
+    console.log(coinsId)
 }
 
 //get
@@ -30,16 +33,17 @@ function getPortfolio (req, res){
 //put
 function editCoin (req, res){
     const {id} = req.params
-    const {name, symbol, amount, value} = req.body
+    const {amount} = req.body
+
 
     let coinIndex  = coins.findIndex(coin => coin.id === +id)
+
 
     if(coinIndex >= 0){
     
         let coinObj = coins[coinIndex]
 
         coinObj.amount = coinObj.amount + amount
-        coinObj.value = coinObj.value + value
         
         res.status(200).json(coins)
     }
@@ -48,12 +52,18 @@ function editCoin (req, res){
 //delete
 function deleteCoin (req, res){
     const {id} = req.params
-
+    
     let coinIndex  = coins.findIndex(coin => coin.id === +id)
     
     if(coinIndex >= 0){
         coins.splice(coinIndex, 1)
+        coinsId--
+        for(let i = coinsId - 1; i < coins.length; i++){
+            coins[i].id--
+        }
     }
+
+    
     res.status(200).json(coins)
 }
 
