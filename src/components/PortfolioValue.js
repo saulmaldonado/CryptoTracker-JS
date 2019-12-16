@@ -1,4 +1,5 @@
 import React from 'react'
+import './styles/PortfolioValue.css'
 
 export default class PortfolioValue extends React.Component{
     constructor(){
@@ -61,11 +62,13 @@ export default class PortfolioValue extends React.Component{
 
 
         return(
-            <div>
-                <div>Portfolio Value</div>
+            <div className="portfolio-value">
+                <div className="title">Portfolio Value</div>
                 <div className='portfolio-total'> {`$${totalValue.toFixed(2)}`} </div>
-                <div className='portfolio-percent-change'>Percent Change: {percentChange ? `${percentChange.toFixed(2)}%` : `0%`}</div>
-                <button onClick={this.props.switchToPortfolio}>Portfolio</button><button onClick={this.props.switchToBuyAndSell} >Buy and Sell</button>
+                    <div className='portfolio-percent-change'> {`( ${percentChange ? percentChange.toFixed(2) + "%" : "0%"} )`}</div>
+                    <div className='view-change-buttons'>
+                        <button className='buy-sell-buttons'  onClick={this.props.switchToPortfolio}>Portfolio</button><button className='buy-sell-buttons' onClick={this.props.switchToBuyAndSell} >Buy and Sell</button>
+                    </div>
             </div>
         )
     }

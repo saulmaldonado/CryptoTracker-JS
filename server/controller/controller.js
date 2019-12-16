@@ -57,8 +57,9 @@ function deleteCoin (req, res){
     
     if(coinIndex >= 0){
         coins.splice(coinIndex, 1)
-        coinsId--
-        for(let i = coinsId - 1; i < coins.length; i++){
+        coinsId-- 
+        console.log(coinsId)
+        for(let i = coinIndex; i < coins.length; i++){
             coins[i].id--
         }
     }

@@ -1,5 +1,5 @@
 import React from 'react'
-import axios from 'axios'
+import './styles/Holdings.css'
 
 export default class Holdings extends React.Component{
     constructor(){
@@ -35,7 +35,7 @@ export default class Holdings extends React.Component{
     }
 
     render(){
-        const {coinBuyPrice, coinAmount, coinNames} = this.state
+        const {coinBuyPrice, coinAmount, coinNames, coinSymbols} = this.state
 
         let holdingValue = []
 
@@ -46,13 +46,33 @@ export default class Holdings extends React.Component{
 
 
         return(
-            <div>
+            <div className='holdings'>
                 {coinNames.map((val, i) => {
                     
-                    return <div key={i}> 
-                                <div key={`coinName ${i}`}>{`${val}`}</div> 
-                                <div key={`values ${i}`}>{`Holdings: ${coinAmount[i]} Value: $${(this.state.marketPrices[this.state.marketSymbols.findIndex(ele => this.state.coinSymbols[i] === ele)] * coinAmount[i]).toFixed(2)} Percent of portfolio: ${  (100 * ( (coinBuyPrice[i]) / holdingValue.reduce((prev, curr) => curr + prev, 0) )).toFixed(2) } %`}</div>
-                            </div>
+                    return <div className='holding' key={i}> 
+                                <div className='coin-name' key={`coinName ${i}`}>{`${val} ( ${coinSymbols[i]} )`}</div> 
+                                <div className='data'>
+                                    <div key={`values ${i}`}>
+                                        <div className='data-values'>
+                                            <div>{`Quantity:`}</div>
+                                            <div className='value'>{coinAmount[i]}</div>
+                                        </div>
+                                    </div> 
+                                    <div>
+                                        <div className='data-values'>
+                                            <div>{`Value:`} </div>
+                                            <div className='value'> ${(this.state.marketPrices[this.state.marketSymbols.findIndex(ele => this.state.coinSymbols[i] === ele)] * coinAmount[i]).toFixed(2)} </div>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div className='data-values'>
+                                            <div> {`Percent of portfolio:`} </div>
+                                            <div className='value'> {`${(100 * ( (coinBuyPrice[i]) / holdingValue.reduce((prev, curr) => curr + prev, 0) )).toFixed(2) } %`} </div>
+                                        </div>
+                                         </div>
+                                    </div>
+
+                                </div>
                 })}
             </div>
         )

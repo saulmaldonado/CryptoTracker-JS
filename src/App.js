@@ -141,14 +141,20 @@ import BuyAndSell from './components/BuyAndSell/BuyAndSell';
    
   return (
     <div className="App">
-      <header>My Portfolio</header>
-      <PortfolioValue coinBuyPrice={coinBuyPrice} coinAmount={coinAmount} coinNames={coinNames} coinSymbols={coinSymbols} marketSymbols={marketSymbols} marketPrices={marketPrices} switchToPortfolio={this.switchToPortfolio} switchToBuyAndSell={this.switchToBuyAndSell} prevMarketPrices={prevMarketPrices}/>
-     {currentMode ? ( 
-       <BuyAndSell  marketSymbols={marketSymbols} marketPrices={marketPrices} addNewCoin={this.addNewCoin} coinSymbols={coinSymbols} updateCoin={this.updateCoin} deleteCoin={this.deleteCoin} coinAmount={coinAmount}/>
-     ) : (
-       <Holdings coinBuyPrice={coinBuyPrice} coinAmount={coinAmount} coinNames={coinNames} coinSymbols={coinSymbols} marketSymbols={marketSymbols} marketPrices={marketPrices}/>
-     )}
-      <MarketPrices refreshData={this.refreshData} marketSymbols={marketSymbols} marketPrices={marketPrices} prevMarketPrices={prevMarketPrices} />
+      <header className="header">Crypto Tracker</header>
+      <div className='main'>
+          <div className='main-div'>
+              <PortfolioValue coinBuyPrice={coinBuyPrice} coinAmount={coinAmount} coinNames={coinNames} coinSymbols={coinSymbols} marketSymbols={marketSymbols} marketPrices={marketPrices} switchToPortfolio={this.switchToPortfolio} switchToBuyAndSell={this.switchToBuyAndSell} prevMarketPrices={prevMarketPrices}/>
+            {currentMode ? ( 
+              <BuyAndSell  marketSymbols={marketSymbols} marketPrices={marketPrices} addNewCoin={this.addNewCoin} coinSymbols={coinSymbols} updateCoin={this.updateCoin} deleteCoin={this.deleteCoin} coinAmount={coinAmount}/>
+            ) : (
+              <Holdings coinBuyPrice={coinBuyPrice} coinAmount={coinAmount} coinNames={coinNames} coinSymbols={coinSymbols} marketSymbols={marketSymbols} marketPrices={marketPrices}/>
+            )}
+          </div>
+          <div className='right-div'> 
+              <MarketPrices refreshData={this.refreshData} marketSymbols={marketSymbols} marketPrices={marketPrices} prevMarketPrices={prevMarketPrices} />
+          </div>
+      </div>
     </div>
   )
 }

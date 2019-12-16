@@ -1,4 +1,5 @@
 import React from 'react'
+import './styles/MarketPrices.css'
 
 export default class MarketPrices extends React.Component{
     constructor(props){
@@ -19,14 +20,17 @@ export default class MarketPrices extends React.Component{
         let top5Coins = marketSymbols.slice(0, 5)
         
         return(
-            <div>
+            <div className='market-prices'>
+                <div className='market-prices-title'>Market Prices</div>
                     {top5Coins.map((ele,i) => {
-                    return <div key={i}>
-                                <div> {marketSymbols[i]} </div> <div> Percent Change :{prevMarketPrices[i] ? `${(((marketPrices[i] / prevMarketPrices[i]) - 1) * 100).toFixed(2)}%` : `0%`} </div>
-                                <div> {`$${marketPrices[i].toFixed(2)}`} </div>
+                    return <div className='prices' key={i}>
+                                <div className='name-percent'>
+                                    <div> {marketSymbols[i]} </div> <div>  {prevMarketPrices[i] ? `${(((marketPrices[i] / prevMarketPrices[i]) - 1) * 100).toFixed(2)}%` : `0%`} </div>
+                                </div>
+                                <div className='marketvalue'> {`$${marketPrices[i].toFixed(2)}`} </div>
                             </div>
                     })}
-                <button onClick={this.props.refreshData}>UPDATE PRICES</button>
+                <button className='update-button' onClick={this.props.refreshData}>UPDATE PRICES</button>
             </div>
         )
     }

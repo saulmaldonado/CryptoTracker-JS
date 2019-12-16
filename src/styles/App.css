@@ -1,0 +1,72 @@
+body { 
+    font-family: 'Ubuntu', sans-serif;
+    text-shadow:  4px 2px 10px rgb(15, 15, 15);
+
+}
+
+header { 
+    border: black solid 2px;
+    height: 15vh;
+    font-size: 7vh;
+    padding: 20px;
+    padding-top: 40px;
+    box-sizing: border-box;
+    background-color: #2b2d42;
+    color: seashell;
+}
+
+.main{
+    display: flex;
+    justify-content: flex-end;
+    box-sizing: border-box;
+    height: 85vh;
+    background-image: linear-gradient( #8b95aa, #4b5361 );
+    color: #edf2f4;
+
+}
+
+.main-div{
+    width: 85%;
+    height: 84vh;
+}
+
+.right-div{
+    width: 15%;
+    
+}
+
+button{
+    font-family: 'Ubuntu', sans-serif;
+    border-radius: 20px;
+    text-shadow:  2px 2px 10px rgb(15, 15, 15);
+    background-color: #a7cfcd;
+    border: #82a3a1;
+    cursor: pointer;
+    opacity: .5;
+    transition: .3s;
+}
+
+button:hover {
+    opacity: 1;
+}
+
+input {
+    background-color: seashell;
+    text-shadow: 2px 2px 4px grey;
+    transition: .5s;
+
+}
+
+input[disabled] {
+    background-color: grey;
+    border: rgb(184, 179, 179) solid 2px;
+    color: white;
+}
+
+input:focus{
+    box-shadow: 0px 0px 8px white
+
+
+
+}
+
