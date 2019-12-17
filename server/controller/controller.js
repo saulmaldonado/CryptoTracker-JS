@@ -8,21 +8,24 @@ let coinsId = coins.length
 
 //post
 function addCoin(req, res){
+    
     const {name, symbol, amount, value} = req.body
 
+    if(value){
+        coins.push({
+            id: coinsId,
+            name,
+            symbol,
+            amount, 
+            value
+        })
+    
+        coinsId++
+    
+        res.status(200).json(coins)
+    }
 
-    coins.push({
-        id: coinsId,
-        name,
-        symbol,
-        amount, 
-        value
-    })
 
-    coinsId++
-
-    res.status(200).json(coins)
-    console.log(coinsId)
 }
 
 //get

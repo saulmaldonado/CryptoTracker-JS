@@ -6,6 +6,7 @@ import PortfolioValue from './components/PortfolioValue';
 import Holdings from './components/Holdings';
 import MarketPrices from './components/MarketPrices';
 import BuyAndSell from './components/BuyAndSell/BuyAndSell';
+
  export default class App extends React.Component{
    constructor(){
      super()
@@ -46,8 +47,8 @@ import BuyAndSell from './components/BuyAndSell/BuyAndSell';
         console.log('API GET')
         this.setState({prevMarketPrices: this.state.marketPrices})
         this.setState({marketSymbols: res.data[0], marketPrices: res.data[1]})
-    })
-   }
+    }).catch(( err => console.error(err)))
+  }
 
    addNewCoin(text){
      axios.post('/api/portfolio', text)
@@ -57,6 +58,7 @@ import BuyAndSell from './components/BuyAndSell/BuyAndSell';
 
 
       })
+      .catch(( err => console.error(err)))
     }
 
     updateCoin(id, text){
@@ -73,7 +75,7 @@ import BuyAndSell from './components/BuyAndSell/BuyAndSell';
         
 
         this.setState({coinAmount: newCoinAmount, coinBuyPrice: newCoinBuyPrice})
-      })
+      }).catch(( err => console.error(err)))  
     }
 
     deleteCoin(id){
@@ -93,6 +95,8 @@ import BuyAndSell from './components/BuyAndSell/BuyAndSell';
 
             this.setState({coinNames: newCoinNames, coinSymbols: newCoinSymbols, coinBuyPrice: newCoinBuyPrice, coinAmount: newCoinAmount})
       })
+      .catch(( err => console.error(err))) 
+
     }
 
    componentDidMount(){
@@ -143,17 +147,18 @@ import BuyAndSell from './components/BuyAndSell/BuyAndSell';
     <div className="App">
       <header className="header">Crypto Tracker</header>
       <div className='main'>
-          <div className='main-div'>
+          <main className='main-div'>
               <PortfolioValue coinBuyPrice={coinBuyPrice} coinAmount={coinAmount} coinNames={coinNames} coinSymbols={coinSymbols} marketSymbols={marketSymbols} marketPrices={marketPrices} switchToPortfolio={this.switchToPortfolio} switchToBuyAndSell={this.switchToBuyAndSell} prevMarketPrices={prevMarketPrices}/>
             {currentMode ? ( 
               <BuyAndSell  marketSymbols={marketSymbols} marketPrices={marketPrices} addNewCoin={this.addNewCoin} coinSymbols={coinSymbols} updateCoin={this.updateCoin} deleteCoin={this.deleteCoin} coinAmount={coinAmount}/>
             ) : (
               <Holdings coinBuyPrice={coinBuyPrice} coinAmount={coinAmount} coinNames={coinNames} coinSymbols={coinSymbols} marketSymbols={marketSymbols} marketPrices={marketPrices}/>
             )}
-          </div>
-          <div className='right-div'> 
+          </main>
+          <aside className='right-div'> 
               <MarketPrices refreshData={this.refreshData} marketSymbols={marketSymbols} marketPrices={marketPrices} prevMarketPrices={prevMarketPrices} />
-          </div>
+          </aside>
+          
       </div>
     </div>
   )

@@ -1,6 +1,13 @@
+require('dotenv').config()
+
 const express = require('express')
 const app = express()
 const axios = require('axios')
+
+const {C_API_KEY, PORT} = process.env;
+
+
+
 
 
 //imported controllers
@@ -17,11 +24,10 @@ app.get('/api/portfolio', getPortfolio)
 app.put('/api/portfolio/:id', editCoin)
 
 app.delete('/api/portfolio/:id', deleteCoin)
-
+console.log(C_API_KEY)
 //coinmarketcap api GET
 app.get('/marketdata', ((req, res) => {
-    
-            axios.get('https://pro-api.coinmarketcap.com/v1/cryptocurrency/listings/latest?CMC_PRO_API_KEY=9b804b18-ba9f-42d1-8f2d-cc72db8a76ba')
+            axios.get(`https://pro-api.coinmarketcap.com/v1/cryptocurrency/listings/latest?CMC_PRO_API_KEY=${C_API_KEY}`)
             .then(response => {
 
                 let coinData = response.data["data"]
@@ -45,7 +51,7 @@ app.get('/marketdata', ((req, res) => {
                 }
 
                 res.status(200).json([coinLibrary, priceLibrary])
-            })   
+            }).catch(err=>{console.error(err)})
         }
     ))
 
