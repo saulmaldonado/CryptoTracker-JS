@@ -17,6 +17,8 @@ const { addCoin, getPortfolio, editCoin, deleteCoin } = require('./controller/co
 //body parser
 app.use(express.json())
 
+app.use( express.static( `${__dirname}/../build` ) );
+
 //endpoints
 app.post('/api/portfolio', addCoin)
 
