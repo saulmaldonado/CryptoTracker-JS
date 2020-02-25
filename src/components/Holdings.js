@@ -48,11 +48,13 @@ export default class Holdings extends React.Component{
 
         return(
             <div className='holdings'>
+
                 {coinNames.map((val, i) => {
-                    return <div className='holding' key={i}> 
+                    return  <div className='holding' key={i}> 
                                 <Coin coinSymbols={coinSymbols[i]} val={val} i={i} coinAmount={coinAmount[i]} marketPrices={marketPrices} marketSymbols={marketSymbols} coinBuyPrice={coinBuyPrice[i]} holdingValue={holdingValue}/>
                             </div>
                 })}
+
             </div>
         )
     }

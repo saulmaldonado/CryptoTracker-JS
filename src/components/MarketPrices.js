@@ -23,11 +23,13 @@ export default class MarketPrices extends React.Component{
         return(
             <div className='market-prices'>
                 <div className='market-prices-title'>Market Prices</div>
+
                     {top5Coins.map((ele,i) => {
-                    return <div className='prices' key={i}>
-                        <Prices marketSymbols={marketSymbols[i]} prevMarketPrices={prevMarketPrices[i]} marketPrices={marketPrices[i]} />
+                    return  <div className='prices' key={i}>
+                                <Prices marketSymbols={marketSymbols[i]} prevMarketPrices={prevMarketPrices[i]} marketPrices={marketPrices[i]} />
                             </div>
                     })}
+
                 <button className='update-button' onClick={this.props.refreshData}>UPDATE PRICES</button>
             </div>
         )
